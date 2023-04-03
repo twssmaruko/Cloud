@@ -6,6 +6,13 @@ const Friends = () => {
       <div className="userChat">
         <img src="https://hips.hearstapps.com/hmg-prod/images/michael-jordan.jpg" alt="" />
         <div className="userChatInfo">
+          <span>Jane</span>
+          <p>Latest message, hello.</p>
+        </div>
+      </div>
+      <div className="userChat">
+        <img src="https://hips.hearstapps.com/hmg-prod/images/michael-jordan.jpg" alt="" />
+        <div className="userChatInfo">
           <span>Jane 1</span>
           <p>Latest message, hello.</p>
         </div>
