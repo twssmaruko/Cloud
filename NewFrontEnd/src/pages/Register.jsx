@@ -7,7 +7,7 @@ const Register = () => {
         <div className='formWrapper'>
             <span className="logo">CC12 Chat</span>
             <span className="title">Register</span>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input type="text" placeholder='User Name'/>
                 <input type="email" placeholder='Email'/>
                 <input type="password" placeholder='Password'/>
