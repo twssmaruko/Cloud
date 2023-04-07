@@ -1,3 +1,4 @@
+const { url } = require("inspector");
 
 function Login(){
     var UN = document.getElementById("username").value;
@@ -26,7 +27,38 @@ function CheckConfirm(PW, PW_confirm){
     }
 }
 
+const userAction = async () => {
+    url = "http://localhost:3000/";
+    const response = await fetch(url);
+    const myJson = await response.json(); //extract JSON from the http response
+    const str = JSON.stringify(myJson);
+    console.log(str);
+  }
+
 function Register(){
+
+    const Http = new XMLHttpRequest();
+    const url='http://localhost:3000/register';
+
+    const body = JSON.stringify({
+        user_name: "bob",
+        password: "bob_0",
+      });
+
+      xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 201) {
+          console.log(JSON.parse(xhr.responseText));
+        } else {
+          console.log(`Error: ${xhr.status}`);
+        }
+      };
+      xhr.send(body);
+
+    Http.onreadystatechange = (e) => {
+        console.log(Http.responseText)
+        alert("athava");
+    }
+
     var UN = document.getElementById("username").value;
     var PW = document.getElementById("password").value;
     var PW_confirm = document.getElementById("confirm-password").value;
