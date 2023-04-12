@@ -35,32 +35,58 @@ const userAction = async () => {
     console.log(str);
   }
 
-function Register(){
-
+function RegisterUser(user_name, password){
     const Http = new XMLHttpRequest();
-    const url='http://localhost:3000/register';
+    const url="http://localhost:3000/register";
 
     const body = JSON.stringify({
         user_name: "bob",
         password: "bob_0",
       });
 
-      xhr.onload = () => {
-        if (xhr.readyState == 4 && xhr.status == 201) {
-          console.log(JSON.parse(xhr.responseText));
-        } else {
-          console.log(`Error: ${xhr.status}`);
-        }
-      };
-      xhr.send(body);
 
-    Http.onreadystatechange = (e) => {
-        console.log(Http.responseText)
-        alert("athava");
+      Http.open("POST", url, false);
+
+    //   set content-type header to JSON
+    Http.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+
+    Http.send(body);
+
+    // Http.onload = () => {
+    //     if (Http.readyState == 4 && Http.status == 201) {
+    //       console.log(JSON.parse(Http.responseText));
+    //     } else {
+    //       alert(`Error: ${Http.status}`);
+    //     }
+    //   };onreadystatechange
+
+    Http.onload = (e) => {
+        console.log(Http.responseText);
+        if (Http.responseText.trim() == "true"){
+            console.log("Success");
+            return true;
+        }
+        else {
+            console.log("Failure")
+            return false;
+        }
+         
     }
 
+
+}
+
+function Register(){
+   
     var UN = document.getElementById("username").value;
     var PW = document.getElementById("password").value;
+
+    const success = RegisterUser(UN, PW);
+
+    if (!success) {
+        alert("Registration Failed");
+    }
+
     var PW_confirm = document.getElementById("confirm-password").value;
     if (CheckRepeat(UN)) {
         if(CheckConfirm(PW, PW_confirm)){

@@ -1,6 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "http://127.0.0.1:5500",
+};
+
 const app = express()
+app.use(cors(corsOptions));
+
 const db = require('./queries')
 const port = 3000
 
@@ -14,7 +23,7 @@ app.use(
 
 app.post("/register", (req, res, next) => {
     console.log("Register Body : " , req.body);
-    res.json(["Tony","Lisa","Michael","Ginger","Food"]);
+    res.send("true");
    });
 
 app.post("/login", (req, res, next) => {
