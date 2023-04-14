@@ -17,25 +17,44 @@ const getUsers = (request, response) => {
   })
 }
 
-const getUserById = (request, response) => {
-  const id = parseInt(request.params.id)
+const getUserByUserName = (request, response) => {
+  const obj = JSON.stringify(request.body);
+  var parsed = JSON.parse(obj);
+  var userName = parsed.user_name;
+  var password = parsed.password;
 
-  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM users WHERE user_name = $1', [userName], (error, results) => {
     if (error) {
-      throw error
+      console.error('Error executing query', error.stack)
     }
-    response.status(200).json(results.rows)
+
+    const passStored = results.rows[0].password;
+
+    if(password != passStored) {
+      console.log("Incorrect Password")
+      response.status(401).send("Incorrect Password")
+    }
+    else {
+      console.log("Login Success")
+      response.status(200).send("Login Success")
+    }
+    
   })
 }
 
-const createUser = (request, response) => {
-  const { name, email } = request.body
 
-  pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+const createUser = (request, response) => {
+  const obj = JSON.stringify(request.body);
+  var parsed = JSON.parse(obj);
+  var userName = parsed.user_name;
+  var password = parsed.password;
+
+  console.log("name: ", userName, " password: ", password)
+  pool.query('INSERT INTO users (user_name, password) VALUES ($1, $2)', [userName, password], (error, results) => {
     if (error) {
-      throw error
+      return console.error('Error executing query', error.stack)
     }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
+    response.status(201).send(`User added with ID: ${results.fields}`)
   })
 }
 
@@ -68,7 +87,7 @@ const deleteUser = (request, response) => {
 
 module.exports = {
   getUsers,
-  getUserById,
+  getUserByUserName,
   createUser,
   updateUser,
   deleteUser,
