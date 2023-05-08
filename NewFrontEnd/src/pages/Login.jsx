@@ -1,12 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import {useDispatch} from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import * as actions from '../store/users/index';
 
 
 const Login = () => {
+  const dispatcher = useDispatch();
   const navigate = useNavigate()
   const registerClick = () => {
     console.log('Hello World')
   }
+  useEffect(() => {
+     dispatcher(actions.fetchUsers())
+  }, [])
+
   return (
     <div className='formContainer'>
         <div className='formWrapper'>

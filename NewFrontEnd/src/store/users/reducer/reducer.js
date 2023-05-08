@@ -16,11 +16,10 @@ const fetchUsersSuccess = (state, action) => updateObject(state, {
 
 const newUserStart = (state, action) => updateObject(state, {loading: true});
 const newUserSuccess = (state, action) => updateObject(state, {
-    users: action.users,
     loading: false
 })
 
-const reducer = (state = initialState, action) => {
+const users = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USERS_START: return fetchUsersStart(state, action);
         case actionTypes.FETCH_USERS_SUCCESS: return fetchUsersSuccess(state, action);
@@ -31,4 +30,4 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-export default reducer;
+export default users;

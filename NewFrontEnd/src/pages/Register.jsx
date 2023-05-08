@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import {useDispatch} from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import Add from '../img/icon-registration.png';
 import moment from 'moment';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space, message } from 'antd';
 import { useNavigate } from "react-router-dom";
 import * as actions from '../store/users/index';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 const Register = () => {
 
@@ -16,9 +18,38 @@ const Register = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('9x1923921ajsdkw')
   const [birthday, setBirthday] = useState('')
+  const [invalidUserName, setInvalidUserName] = useState(false)
+  const [invalidEmail, setInvalidEmail] = useState(true)
+
+  const {load, usrs} = useSelector(({users}) => ({
+    load: users.loading,
+    usrs: users.users
+  }), shallowEqual);
 
   const dispatcher = useDispatch();
+  const navigate = useNavigate();
 
+  const userNameCheck = () => {
+    for (const key in usrs) {
+      if(userName === usrs[key].username){
+        message.error("Username already taken!")
+      }
+    }
+  }
+
+  const emailCheck = () => {
+    for (const key in usrs) {
+      if(email === usrs[key].email) {
+        message.error("Email already in use!")
+      }
+    }
+  }
+
+
+  useEffect(() => {
+    userNameCheck()
+    emailCheck()
+  }, [userName, email])
   const onDateSelected = (data) => {
     const date = moment(data._d).format('MMMM Do YYYY');
     setBirthday(date)
@@ -28,7 +59,9 @@ const Register = () => {
     setBirthday(dateString)
   };
 
-  const handleSubmit = (data) => {
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+  const handleSubmit = async(data) => {
     data.preventDefault()
 
     const toSend = {
@@ -40,15 +73,28 @@ const Register = () => {
       birthday: birthday,
 
     }
-    dispatcher(actions.createUser(toSend));
+    try {
+      await dispatcher(actions.createUser(toSend))
+      navigate("/")
+    } catch (err) {
+      console.error(err.message)
+    }
   }
+
+
+
+
+
   return (
     <div className='formContainer'>
       <div className='formWrapper'>
+      <Spin indicator={antIcon} spinning={load}/>
         <span className="logo"> CC12 Chat</span>
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
-          <input id="userName" name="userName" type="text" placeholder='User Name' onChange={(e) => { setUserName(e.target.value) }} />
+          <input id="userName" name="userName" type="text" placeholder='User Name' onChange={(e) => 
+            { setUserName(e.target.value)
+            userNameCheck() }} />
           <input name="firstName" type="text" placeholder='First Name' onChange={(e) => { setFirstName(e.target.value) }} />
           <input name="lastName" type="text" placeholder='Last Name' onChange={(e) => { setLastName(e.target.value) }}/>
           <input name="email" type="email" placeholder='Email' onChange={(e) => { setEmail(e.target.value) }}/>
@@ -61,7 +107,7 @@ const Register = () => {
           </label>
           <button>Register</button>
         </form>
-        <p>Already have an account? Login</p>
+        <p>Already have an account? <button onClick = {() => {navigate("/")}}>Login</button></p>
       </div>
     </div>
   )
