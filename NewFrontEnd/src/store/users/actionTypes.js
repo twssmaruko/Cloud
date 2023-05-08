@@ -1,0 +1,5 @@
+export const FETCH_USERS_START = 'FETCH_USERS_START';
+export const FETCH_USERS_SUCCESS = 'FETCH_USERS_SUCCESS';
+export const NEW_USER_START = 'NEW_USER_START';
+export const NEW_USER_SUCCESS = 'NEW_USER_SUCCESS';
+export const SET_USER = 'SET_USER';
