@@ -72,16 +72,21 @@ export const createUser = (userData) => async(dispatch) => {
     }
 }
 
+const UserException = (message) => {
+
+}
+
 export const loginUser = (userData) => async(dispatch) => {
     dispatch(loginUserStart())
     try {
         const response = await api.post('/user-login', userData)
-        if(response.data === '') {
-            throw "Blank Response"
-        } else {
+        if(response.data !== ''){
             await dispatch(setUserLogin())
             await dispatch(loginUserSuccess(response.data))
+        } else {
+            throw new Error("Invalid Username/Password")
         }
+        
     } catch (err) {
        const errorUser = {username: 'error'}
         console.error(err.message)

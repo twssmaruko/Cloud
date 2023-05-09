@@ -27,7 +27,12 @@ const Login = () => {
 
   useEffect(() => {
     dispatcher(actions.fetchUsers())
- }, [])
+    if(logUser) {
+      navigate("/home")
+    }
+ }, [logUser])
+
+
 
   const handleSubmit = async(data) => {
     data.preventDefault();
@@ -36,18 +41,21 @@ const Login = () => {
       username: userName,
       password: password
     }
-    
+
     try {
+
       await dispatcher(actions.loginUser(toSend))
-      const response = await api.get('/users/')
-      if(logUser) {
-        navigate("/home")
-      }
+      
     } catch (err) {
       console.error(err.message)
     }
 
 
+  }
+
+  const registerClick = async() => {
+    await dispatcher(actions.fetchUsers())
+    navigate("/register")
   }
 
 
@@ -63,7 +71,7 @@ const Login = () => {
 
                 <button>Login</button>
             </form>
-            <p>Don't have an account? <button onClick={() => navigate("/register")}>Register</button></p>
+            <p>Don't have an account? <button onClick={() => registerClick()}>Register</button></p>
         </div>
     </div>
   )

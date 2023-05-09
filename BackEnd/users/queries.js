@@ -13,6 +13,7 @@ const getUserById = async (req, res) => {
     try{
         const { id } = req.params
         const fetchedUser = await pool.query ('SELECT * FROM users WHERE user_id = $1', [id])
+       
         res.json(fetchedUser.rows[0])
     } catch (err) {
         console.error(err.message)
