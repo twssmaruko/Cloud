@@ -6,3 +6,5 @@ export const SET_USER = 'SET_USER';
 export const LOGIN_USER_START = 'LOGIN_USER_START';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAIL = 'LOGIN_USER_FAIL';
+export const SET_USER_LOGIN = 'SET_USER_LOGIN';
+export const SET_USER_LOGOFF = 'SET_USER_LOGOFF';

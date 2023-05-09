@@ -3,6 +3,7 @@ import {updateObject} from '../../utility';
 
 const initialState = {
     userId: '',
+    userLogged: false,
     users: [],
     user: {},
     loading: false
@@ -27,7 +28,16 @@ const loginUserSuccess = (state, action) => updateObject(state, {
 })
 
 const loginUserFail = (state, action) => updateObject(state, {
+    user: action.data,
     loading: false
+})
+
+const setUserLogin = (state, action) => updateObject(state, {
+    userLogged: true
+})
+
+const setUserLogoff = (state, action) => updateObject(state, {
+    userLogged: false
 })
 
 const users = (state = initialState, action) => {
@@ -39,6 +49,8 @@ const users = (state = initialState, action) => {
         case actionTypes.LOGIN_USER_START: return loginUserStart(state, action);
         case actionTypes.LOGIN_USER_SUCCESS: return loginUserSuccess(state, action);
         case actionTypes.LOGIN_USER_FAIL: return loginUserFail(state, action);
+        case actionTypes.SET_USER_LOGIN: return setUserLogin(state, action);
+        case actionTypes.SET_USER_LOGIN: return setUserLogoff(state, action);
         default: return state;
 
     }

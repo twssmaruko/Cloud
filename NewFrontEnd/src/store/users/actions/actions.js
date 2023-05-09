@@ -4,7 +4,6 @@ import {message} from 'antd';
 import api from '../../../api/api';
 
 
-
 export const fetchUsersStart = () => ({
     type: actionTypes.FETCH_USERS_START
 });
@@ -31,8 +30,17 @@ export const loginUserSuccess = (data) => ({
     data
 })
 
-export const loginUserFail = () => ({
-    type: actionTypes.LOGIN_USER_FAIL
+export const loginUserFail = (data) => ({
+    type: actionTypes.LOGIN_USER_FAIL,
+    data
+})
+
+export const setUserLogin = () => ({
+    type:actionTypes.SET_USER_LOGIN
+})
+
+export const setUserLogoff = () => ({
+    type:actionTypes.SET_USER_LOGOFF
 })
 
 export const fetchUsers = () => async(dispatch) => {
@@ -70,12 +78,16 @@ export const loginUser = (userData) => async(dispatch) => {
         const response = await api.post('/user-login', userData)
         if(response.data === '') {
             throw "Blank Response"
+        } else {
+            await dispatch(setUserLogin())
+            await dispatch(loginUserSuccess(response.data))
         }
-        dispatch(loginUserSuccess(response.data))
     } catch (err) {
+       const errorUser = {username: 'error'}
         console.error(err.message)
         message.error('Invalid Username or Password!')
-        dispatch(loginUserFail())
+        await dispatch(setUserLogoff())
+        dispatch(loginUserFail(errorUser))
         
     }
 }
