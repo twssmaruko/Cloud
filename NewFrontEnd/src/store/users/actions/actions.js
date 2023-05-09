@@ -72,10 +72,6 @@ export const createUser = (userData) => async(dispatch) => {
     }
 }
 
-const UserException = (message) => {
-
-}
-
 export const loginUser = (userData) => async(dispatch) => {
     dispatch(loginUserStart())
     try {
