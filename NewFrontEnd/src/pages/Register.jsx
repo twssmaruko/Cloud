@@ -50,10 +50,6 @@ const Register = () => {
     userNameCheck()
     emailCheck()
   }, [userName, email])
-  const onDateSelected = (data) => {
-    const date = moment(data._d).format('MMMM Do YYYY');
-    setBirthday(date)
-  }
 
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setBirthday(dateString)
@@ -80,10 +76,6 @@ const Register = () => {
       console.error(err.message)
     }
   }
-
-
-
-
 
   return (
     <div className='formContainer'>

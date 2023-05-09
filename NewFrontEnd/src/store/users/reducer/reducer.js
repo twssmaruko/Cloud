@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 import {updateObject} from '../../utility';
 
 const initialState = {
+    userId: '',
     users: [],
     user: {},
     loading: false
@@ -19,12 +20,25 @@ const newUserSuccess = (state, action) => updateObject(state, {
     loading: false
 })
 
+const loginUserStart = (state, action) => updateObject(state, {loading: true});
+const loginUserSuccess = (state, action) => updateObject(state, {
+    user: action.data,
+    loading: false
+})
+
+const loginUserFail = (state, action) => updateObject(state, {
+    loading: false
+})
+
 const users = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.FETCH_USERS_START: return fetchUsersStart(state, action);
         case actionTypes.FETCH_USERS_SUCCESS: return fetchUsersSuccess(state, action);
         case actionTypes.NEW_USER_START: return newUserStart(state, action);
         case actionTypes.NEW_USER_SUCCESS: return newUserSuccess(state, action);
+        case actionTypes.LOGIN_USER_START: return loginUserStart(state, action);
+        case actionTypes.LOGIN_USER_SUCCESS: return loginUserSuccess(state, action);
+        case actionTypes.LOGIN_USER_FAIL: return loginUserFail(state, action);
         default: return state;
 
     }

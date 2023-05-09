@@ -22,6 +22,19 @@ export const newUserSuccess = () => ({
     type:actionTypes.NEW_USER_SUCCESS
 })
 
+export const loginUserStart =  () => ({
+    type: actionTypes.LOGIN_USER_START
+})
+
+export const loginUserSuccess = (data) => ({
+    type: actionTypes.LOGIN_USER_SUCCESS,
+    data
+})
+
+export const loginUserFail = () => ({
+    type: actionTypes.LOGIN_USER_FAIL
+})
+
 export const fetchUsers = () => async(dispatch) => {
     dispatch(fetchUsersStart())
     try {
@@ -42,7 +55,7 @@ export const fetchUsers = () => async(dispatch) => {
 export const createUser = (userData) => async(dispatch) => {
     dispatch(newUserStart())
     try {
-        const response = await api.post('/users/', userData);
+        await api.post('/users/', userData);
         dispatch(newUserSuccess())
         message.success('User Registration Success!');
         
@@ -51,8 +64,20 @@ export const createUser = (userData) => async(dispatch) => {
     }
 }
 
-export const createUserSuccess = () => async(dispatch) => {
-
+export const loginUser = (userData) => async(dispatch) => {
+    dispatch(loginUserStart())
+    try {
+        const response = await api.post('/user-login', userData)
+        if(response.data === '') {
+            throw "Blank Response"
+        }
+        dispatch(loginUserSuccess(response.data))
+    } catch (err) {
+        console.error(err.message)
+        message.error('Invalid Username or Password!')
+        dispatch(loginUserFail())
+        
+    }
 }
 
 const compare = (a, b) => {

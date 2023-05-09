@@ -53,6 +53,7 @@ app.get('/', (request, response) => {
 
 app.get('/users', usersDB.getUsers)
 app.get('/users/:id', usersDB.getUserById)
+app.post('/user-login', usersDB.loginUser)
 app.put('/users/:id', usersDB.updateUser)
 app.post('/users', usersDB.createUser)
 app.delete('/users/:id', usersDB.deleteUser)

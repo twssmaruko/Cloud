@@ -1,5 +1,5 @@
 export {
     createUser,
     fetchUsers,
-    createUserSuccess
+    loginUser
   } from './actions/actions';

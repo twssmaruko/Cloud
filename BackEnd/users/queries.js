@@ -19,6 +19,16 @@ const getUserById = async (req, res) => {
     }
 }
 
+const loginUser = async (req, res) => {
+    try {
+        const {username, password} = req.body
+        const fetchedUser = await pool.query('SELECT * FROM users WHERE ((username=$1) OR (email=$1)) AND (password=$2)', [username, password])
+        res.json(fetchedUser.rows[0])
+    } catch (err) {
+        console.error(err.message)
+    }
+}
+
 const createUser = async (req, res) => {
     try {
         const { username, password, first_name, last_name, birthday, email } = req.body
@@ -56,5 +66,6 @@ module.exports = {
     getUserById,
     createUser,
     deleteUser,
-    updateUser
+    updateUser,
+    loginUser
 }
