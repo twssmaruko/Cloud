@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 // import axios from '../../../axios-orders';
 import {message} from 'antd';
 import api from '../../../api/api';
+import { uploadFile } from 'react-s3';
 
 
 export const fetchUsersStart = () => ({
@@ -43,6 +44,18 @@ export const setUserLogoff = () => ({
     type:actionTypes.SET_USER_LOGOFF
 })
 
+export const uploadPicStart = () => ({
+    type:actionTypes.UPLOAD_PIC_START
+})
+
+export const uploadPicSuccess = (data) => ({
+    type: actionTypes.UPLOAD_PIC_SUCCESS,
+    data
+})
+
+export const uploadPicFail = () => ({
+    type:actionTypes.UPLOAD_PIC_FAIL
+})
 export const fetchUsers = () => async(dispatch) => {
     dispatch(fetchUsersStart())
     try {
@@ -60,10 +73,16 @@ export const fetchUsers = () => async(dispatch) => {
     }
 }
 
-export const createUser = (userData) => async(dispatch) => {
+export const createUser = (userData, pictureFile, pictureType) => async(dispatch) => {
     dispatch(newUserStart())
     try {
-        await api.post('/users/', userData);
+        const pictureLink = "https://aimsbconnectbucket.s3.amazonaws.com/default.png"
+        const createUser = {
+            ...userData,
+            profile_picture_link: pictureLink
+        }
+        console.log(createUser)
+        await api.post('/users/', createUser);
         dispatch(newUserSuccess())
         message.success('User Registration Success!');
         
@@ -92,6 +111,15 @@ export const loginUser = (userData) => async(dispatch) => {
         
     }
 }
+
+export const uploadPic = (data) => async(dispatch) => {
+    dispatch(uploadPicStart())
+    try {
+        
+    } catch (err) {
+        console.error(err.message)
+    }
+} 
 
 const compare = (a, b) => {
     if(a.name < b.name) {

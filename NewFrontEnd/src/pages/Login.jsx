@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import * as actions from '../store/users/index';
 
 import { LoadingOutlined } from '@ant-design/icons';
-import api from '../api/api';
 import { Spin } from 'antd';
 
 
 const Login = () => {
+  
   const dispatcher = useDispatch();
   const navigate = useNavigate();
 
@@ -18,10 +18,8 @@ const Login = () => {
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 
-  const {load, usrs, logUser, usr} = useSelector(({users}) => ({
+  const {load,logUser} = useSelector(({users}) => ({
     load: users.loading,
-    usrs: users.users,
-    usr: users.user,
     logUser: users.userLogged
   }), shallowEqual);
 

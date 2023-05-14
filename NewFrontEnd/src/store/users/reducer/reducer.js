@@ -6,6 +6,7 @@ const initialState = {
     userLogged: false,
     users: [],
     user: {},
+    picture: '',
     loading: false
 }
 
@@ -38,6 +39,20 @@ const setUserLogin = (state, action) => updateObject(state, {
 
 const setUserLogoff = (state, action) => updateObject(state, {
     userLogged: false
+})
+
+const uploadPicStart = (state, action) => updateObject(state, {
+    loading:true
+})
+
+const uploadPicSuccess = (state, action) => updateObject(state, {
+    pic: action.data,
+    loading:true
+
+})
+
+const uploadPicFail = (state, action) => updateObject(state, {
+    loading:false
 })
 
 const users = (state = initialState, action) => {

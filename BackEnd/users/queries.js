@@ -32,9 +32,10 @@ const loginUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { username, password, first_name, last_name, birthday, email } = req.body
+        const { username, password, first_name, last_name, birthday, email, profile_picture_link } = req.body
+
         let currentDate = new Date().toJSON()
-        const newUser = await pool.query('INSERT INTO users (username, password, first_name, last_name, birthday, email, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7)', [username, password, first_name, last_name, birthday, email, currentDate])
+        const newUser = await pool.query('INSERT INTO users (username, password, first_name, last_name, birthday, email, profile_picture_link, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [username, password, first_name, last_name, birthday, email, profile_picture_link, currentDate])
         res.json(newUser.rows[0])
     } catch (err) {
         console.error(err.message)
@@ -44,8 +45,8 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params
-        const { username, password, first_name, last_name, birthday, email } = req.body
-        const updatedUser = await pool.query('UPDATE users SET username = $1, password = $2, first_name = $3, last_name = $4, birthday = $5, email = $6 WHERE user_id = $7', [username, password, first_name, last_name, birthday, email, id])
+        const { username, password, first_name, last_name, birthday, email, profile_picture_link } = req.body
+        const updatedUser = await pool.query('UPDATE users SET username = $1, password = $2, first_name = $3, last_name = $4, birthday = $5, email = $6 profile_picture_link = $7 WHERE user_id = $8', [username, password, first_name, last_name, birthday, email, profile_picture_link, id])
         res.json("User updated")
     } catch (err) {
         console.error(err.message)

@@ -1,23 +1,22 @@
 import React from 'react'
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {useSelector, shallowEqual} from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import * as actions from '../store/users/index';
+import {Button} from 'antd';
 
 
 const Navbar = () => {
 
-  const dispatcher = useDispatch();
+  const navigate = useNavigate();
 
-  const {load, usr, logUser} = useSelector(({users}) => ({
-    load: users.loading,
+  const {usr} = useSelector(({users}) => ({
     usr: users.user
   }), shallowEqual);
 
   return (
     <div className='navbar'>
       <div className='user'>
-        <img src="https://hips.hearstapps.com/hmg-prod/images/michael-jordan.jpg" alt="" />
-        <span className="name">{usr.first_name} {usr.last_name}</span>
+      <img src= {usr.profile_picture_link} alt="" />
+        <Button onClick={() =>{navigate("/profile")}}><span className="name">{usr.first_name} {usr.last_name}</span></Button>
         <button>Logout</button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import Add from '../img/icon-registration.png';
 import moment from 'moment';
 import type { DatePickerProps } from 'antd';
-import { DatePicker, Space, message } from 'antd';
+import { DatePicker, message } from 'antd';
 import { useNavigate } from "react-router-dom";
 import * as actions from '../store/users/index';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -20,6 +20,8 @@ const Register = () => {
   const [birthday, setBirthday] = useState('')
   const [invalidUserName, setInvalidUserName] = useState(false)
   const [invalidEmail, setInvalidEmail] = useState(true)
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileType, setFileType] = useState(".png")
 
   const {load, usrs} = useSelector(({users}) => ({
     load: users.loading,
@@ -57,6 +59,22 @@ const Register = () => {
 
   const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
+  const selectFile = (data) => {
+    if(data.type === 'image/png') {
+        setFileType('.png')
+    } else if (data.type === 'image/jpeg'){
+        setFileType('.jpg')
+    }
+    const blob = data.slice(0, data.size, data.type);
+    const newFile = new File([blob], userName + fileType, {type: fileType});
+    console.log(newFile)
+    setSelectedFile(newFile)
+}
+
+  const userNameChange = (data) => {
+    
+  }
+
   const handleSubmit = async(data) => {
     data.preventDefault()
 
@@ -67,7 +85,6 @@ const Register = () => {
       email: email,
       password: password,
       birthday: birthday,
-
     }
     try {
       await dispatcher(actions.createUser(toSend))
@@ -95,7 +112,6 @@ const Register = () => {
           <DatePicker name="birthday" placeholder="Birthday" onChange={onChange} />
           <input name="profilePic" type="file" id='file' style={{ display: "none" }} />
           <label htmlFor="file">
-            <img src={Add} alt="" /> <p>Upload your profile photo</p>
           </label>
           <button>Register</button>
         </form>
