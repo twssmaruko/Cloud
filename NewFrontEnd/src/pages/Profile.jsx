@@ -13,8 +13,8 @@ const Profile = () => {
         bucketName: "aimsbconnectbucket",
         Name: "test.png",
         region: "us-east-1",
-        accessKeyId: "AKIA6HGPOTO2LVH67RO2",
-        secretAccessKey: "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"
+        accessKeyId: "",
+        secretAccessKey: ""
     }
 
     const {load, usr} = useSelector(({users}) => ({
