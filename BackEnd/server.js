@@ -14,6 +14,7 @@ const cors = require("cors");
 
 const usersDB = require('./users/queries')
 const iamDB = require('./iam/queries')
+const friendsDB = require('./friends/queries')
 const port = 3001
 
 
@@ -61,7 +62,18 @@ app.delete('/users/:id', usersDB.deleteUser)
 
 /////
 app.get('/iam', iamDB.getIam)
+
 /////
+
+
+////FRIENDS
+
+app.get('/friends', friendsDB.getFriends)
+app.post('/friends', frendsDB.addFriend)
+
+
+//
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
