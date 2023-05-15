@@ -48,9 +48,8 @@ export const uploadPicStart = () => ({
     type:actionTypes.UPLOAD_PIC_START
 })
 
-export const uploadPicSuccess = (data) => ({
+export const uploadPicSuccess = () => ({
     type: actionTypes.UPLOAD_PIC_SUCCESS,
-    data
 })
 
 export const uploadPicFail = () => ({
@@ -69,6 +68,18 @@ export const fetchUsers = () => async(dispatch) => {
         //fetchedUsers.sort(compare);
         dispatch(fetchUsersSuccess(fetchedUsers));
     } catch (err) {
+        console.error(err.message)
+    }
+}
+
+export const fetchUser = (id) => async(dispatch) => {
+    dispatch(loginUserStart())
+    try {
+        const response = await api.get('/users/' + id)
+        dispatch(loginUserSuccess(response.data))
+        console.log('responsedata: ', response.data)
+    } catch (err) {
+        dispatch(loginUserFail())
         console.error(err.message)
     }
 }
@@ -112,12 +123,27 @@ export const loginUser = (userData) => async(dispatch) => {
     }
 }
 
-export const uploadPic = (data) => async(dispatch) => {
+export const uploadPic = (data, user) => async(dispatch) => {
     dispatch(uploadPicStart())
     try {
-        
+        const response = await api.get('/iam')
+        const config = {
+            bucketName: "aimsbconnectbucket",
+            region: "us-east-1",
+            accessKeyId: response.data.iam_access_key,
+            secretAccessKey: response.data.iam_secret_access_key
+        }
+        uploadFile(data, config)
+        const updatedUser = {
+            ...user,
+            profile_picture_link: "https://aimsbconnectbucket.s3.amazonaws.com/" + data.name
+        }
+        delete updatedUser.user_id
+        const updateUser = await api.put('/users/' + user.user_id, updatedUser)
+        dispatch(uploadPicSuccess())
     } catch (err) {
         console.error(err.message)
+        dispatch(uploadPicFail())
     }
 } 
 

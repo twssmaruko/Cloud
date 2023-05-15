@@ -46,8 +46,7 @@ const uploadPicStart = (state, action) => updateObject(state, {
 })
 
 const uploadPicSuccess = (state, action) => updateObject(state, {
-    pic: action.data,
-    loading:true
+    loading:false
 
 })
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useSelector, shallowEqual} from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import {Button} from 'antd';
@@ -11,6 +11,10 @@ const Navbar = () => {
   const {usr} = useSelector(({users}) => ({
     usr: users.user
   }), shallowEqual);
+
+  useEffect(() => {
+
+  }, [usr])
 
   return (
     <div className='navbar'>

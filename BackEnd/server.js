@@ -13,6 +13,7 @@ const cors = require("cors");
 //app.use(cors(corsOptions));
 
 const usersDB = require('./users/queries')
+const iamDB = require('./iam/queries')
 const port = 3001
 
 
@@ -58,6 +59,9 @@ app.put('/users/:id', usersDB.updateUser)
 app.post('/users', usersDB.createUser)
 app.delete('/users/:id', usersDB.deleteUser)
 
+/////
+app.get('/iam', iamDB.getIam)
+/////
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })

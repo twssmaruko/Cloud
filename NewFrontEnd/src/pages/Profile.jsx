@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import {Divider, Row, Col, Input, Button, Image} from 'antd';
-
+import {Divider, Row, Col, Input, Button, Image, Spin} from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import * as actions from '../store/users/actions/actions';
 import { uploadFile } from 'react-s3';
 
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -13,8 +14,8 @@ const Profile = () => {
         bucketName: "aimsbconnectbucket",
         Name: "test.png",
         region: "us-east-1",
-        accessKeyId: "",
-        secretAccessKey: ""
+        accessKeyId: "AKIA6HGPOTO2LVH67RO2",
+        secretAccessKey: "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"
     }
 
     const {load, usr} = useSelector(({users}) => ({
@@ -27,6 +28,8 @@ const Profile = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileType, setFileType] = useState(".png")
 
+    const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+    
     const selectFile = (data) => {
         if(data.type === 'image/png') {
             setFileType('.png')
@@ -38,19 +41,17 @@ const Profile = () => {
         setSelectedFile(newFile)
     }
     const uploadPic = async(file) => {
-        try {
-            uploadFile(file, config)
-        } catch (err) {
-            console.log(err.message)
-        }
+        await dispatcher(actions.uploadPic(file, usr))
+        navigate("/home")
         
     }
     return (
         <div className="home">
+            <Spin indicator={antIcon} spinning={load}/>
             <Divider>
             <Row gutter = {16}>
             <Col span={8}>
-            <Image src="https://aimsbconnectbucket.s3.amazonaws.com/tanjiro.png"/>
+            <Image src= {usr.profile_picture_link}/>
             </Col>
             <Col span={8}>
             <input type="file" style={{display:'Upload'}} onChange={(e) =>{selectFile(e.target.files[0])}} multiple />
