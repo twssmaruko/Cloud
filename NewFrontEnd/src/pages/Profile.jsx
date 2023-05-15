@@ -10,13 +10,6 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const Profile = () => {
     const navigate = useNavigate();
-    const config = {
-        bucketName: "aimsbconnectbucket",
-        Name: "test.png",
-        region: "us-east-1",
-        accessKeyId: "AKIA6HGPOTO2LVH67RO2",
-        secretAccessKey: "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"
-    }
 
     const {load, usr} = useSelector(({users}) => ({
         load: users.loading,

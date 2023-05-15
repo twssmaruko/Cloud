@@ -12,10 +12,6 @@ const Navbar = () => {
     usr: users.user
   }), shallowEqual);
 
-  useEffect(() => {
-
-  }, [usr])
-
   return (
     <div className='navbar'>
       <div className='user'>
