@@ -69,7 +69,7 @@ app.get('/iam', iamDB.getIam)
 ////FRIENDS
 
 app.get('/friends', friendsDB.getFriends)
-app.post('/friends', frendsDB.addFriend)
+app.post('/friends', friendsDB.addFriend)
 
 
 //

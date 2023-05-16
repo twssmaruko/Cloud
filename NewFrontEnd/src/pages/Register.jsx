@@ -98,7 +98,7 @@ const Register = () => {
     <div className='formContainer'>
       <div className='formWrapper'>
       <Spin indicator={antIcon} spinning={load}/>
-        <span className="logo"> CC12 Chat</span>
+        <span className="logo"> AIMSBConnect</span>
         <span className="title">Register</span>
         <form onSubmit={handleSubmit}>
           <input id="userName" name="userName" type="text" placeholder='User Name' onChange={(e) => 

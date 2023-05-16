@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import {Divider, Row, Col, Input, Button, Image, Spin} from 'antd';
+import {Divider, Row, Col, Input, Button, Image, Spin, DatePicker} from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import * as actions from '../store/users/actions/actions';
 import { uploadFile } from 'react-s3';
@@ -20,6 +20,11 @@ const Profile = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileType, setFileType] = useState(".png")
+    const [userName, setUserName] = useState(usr.username);
+    const [firstName, setFirstName] = useState(usr.first_name);
+    const [lastName, setLastName] = useState(usr.last_name);
+    const [password, setPassword] = useState(usr.password);
+    const [birthday, setBirthday] = useState(usr.birthday);
 
     const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
     
@@ -38,42 +43,83 @@ const Profile = () => {
         navigate("/home")
         
     }
+
+    const onEditClick = () => {
+
+    }
+
+    const onChange = () => {
+
+    }
+
+    const onDeleteClick = () => {
+
+    }
     return (
         <div className="home">
             <Spin indicator={antIcon} spinning={load}/>
             <Divider>
-            <Row gutter = {16}>
-            <Col span={8}>
-            <Image src= {usr.profile_picture_link}/>
-            </Col>
-            <Col span={8}>
-            <input type="file" style={{display:'Upload'}} onChange={(e) =>{selectFile(e.target.files[0])}} multiple />
-            <button onClick={() => {uploadPic(selectedFile)}}>Upload</button>
-            </Col>
-            </Row>
-            <Row gutter={16}>
-                <Col span={8}/>
-                <Col>
-                    <Input />
-                </Col>
-                <Col span={8}/>
-            </Row>
-            <Row>
-                <Col>
-                    <Input />
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Input />
-                </Col>
-            </Row>
+                <Row gutter = {16}>
+                    <Col span={8}>
+                        <Image src= {usr.profile_picture_link}/>
+                    </Col>
+                    <Col span={8}>
+                        <input type="file" style={{display:'Upload'}} onChange={(e) =>{selectFile(e.target.files[0])}} multiple />
+                        <button onClick={() => {uploadPic(selectedFile)}}>Upload</button>
+                    </Col>
+                </Row>
+                <Row gutter={16}>
+                    <Col span={8}>Username</Col>
+                    <Col>
+                        <Input defaultValue={usr.username} onChange={(e)=>{setUserName(e.target.value)}}/>
+                    </Col>
+                    <Col span={8}/>
+                 </Row>
+                 <Row gutter={16}>
+                    <Col span={8}>First Name</Col>
+                    <Col>
+                        <Input defaultValue={usr.first_name} onChange={(e)=>{setFirstName(e.target.value)}}/>
+                    </Col>
+                    <Col span={8}/>
+                 </Row>
+                 <Row gutter={16}>
+                    <Col span={8}>Last Name</Col>
+                    <Col>
+                        <Input defaultValue={usr.last_name} onChange={(e)=>{setLastName(e.target.value)}}/>
+                    </Col>
+                    <Col span={8}/>
+                 </Row>
+                 <Row gutter={16}>
+                    <Col span={8}>Password</Col>
+                    <Col>
+                        <Input type="password" defaultValue={usr.password} onChange={(e)=>{setPassword(e.target.value)}}/>
+                    </Col>
+                    <Col span={8}/>
+                 </Row>
+                 <Row gutter={16}>
+                    <Col span={8}>Birthday</Col>
+                    <Col>
+                    <DatePicker name="birthday" defaltValue={usr.birthday} onChange={onChange} />
+                    </Col>
+                    <Col span={8}/>
+                 </Row>
+                 <Row gutter={16}>
+                    <Col span={8} />
+                    <Col>
+                        <Button onClick={() => {navigate("/home")}}>Back</Button>
+                    </Col>
+                    <Col span={8}>
+                        <Button onClick = {() => {onEditClick()}}>Edit</Button>
+                    </Col>
+                 </Row>
+                 <Row gutter={24}>
+                    <Col span={4} />
+                    <Col span={16}>
+                        <Button onClick={() => {onDeleteClick()}}>DELETE ACCOUNT</Button>
+                    </Col>
+                    <Col span={4} />
+                 </Row>
             </Divider>
-            <Row>
-                <Col>
-                    <Button onClick={() => {navigate("/home")}}>Back</Button>
-                </Col>
-            </Row>
         </div>
     )
 }
