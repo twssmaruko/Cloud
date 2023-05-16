@@ -184,16 +184,31 @@ export const deleteUser = (user) => async(dispatch) => {
             await dispatch(setUserLogoff())
             await dispatch(deleteUserSuccess(response.data))
         } else {
-            throw new Error("Invalid Username")
+            throw new Error("Invalid id", user.user_id)
         }
         
     } catch (err) {
        const errorUser = {username: 'error'}
         console.error(err.message)
-        message.error('Invalid Username')
-        // await dispatch(setUserLogoff())
+        message.error('Deleting id', user.user_id, " unsuccessful")
         dispatch(deleteUserFail(errorUser))
+    }
+}
+
+export const updateUser = (user) => async(dispatch) => {
+    dispatch(updateUserStart())
+    try {
+        const updatedUser = {
+            ...user,
+            profile_picture_link: "https://aimsbconnectbucket.s3.amazonaws.com/default.png"
+        }
+        console.log(updatedUser)
+        await api.put('/users/' + user.user_id, updatedUser);
+        dispatch(updateUserSuccess())
+        message.success('User Update Success!');
         
+    } catch (err) {
+        console.error(err.message)
     }
 }
 

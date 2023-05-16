@@ -45,8 +45,17 @@ const Profile = () => {
     }
 
     const onEditClick = async() => {
-        await dispatcher(actions.uploadPic(file, usr))
-        navigate("/home")
+          try {
+            usr.username  = userName
+            usr.first_name = firstName
+            usr.last_name = lastName 
+            usr.password  = password
+            usr.birthday  = birthday
+            await dispatcher(actions.updateUser(usr))
+            navigate("/home")
+          } catch (err) {
+            console.error(err.message)
+          }
     }
 
     const onChange = () => {
