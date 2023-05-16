@@ -44,16 +44,22 @@ const Profile = () => {
         
     }
 
-    const onEditClick = () => {
-
+    const onEditClick = async() => {
+        await dispatcher(actions.uploadPic(file, usr))
+        navigate("/home")
     }
 
     const onChange = () => {
 
     }
 
-    const onDeleteClick = () => {
-
+    const onDeleteClick = async() => {
+        try {
+            await dispatcher(actions.deleteUser(usr))
+            navigate("/")
+          } catch (err) {
+            console.error(err.message)
+        }
     }
     return (
         <div className="home">
