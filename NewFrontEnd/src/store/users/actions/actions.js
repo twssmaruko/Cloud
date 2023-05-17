@@ -55,6 +55,35 @@ export const uploadPicSuccess = () => ({
 export const uploadPicFail = () => ({
     type:actionTypes.UPLOAD_PIC_FAIL
 })
+
+export const deleteUserStart =  () => ({
+    type: actionTypes.DELETE_USER_START
+})
+
+export const deleteUserSuccess = (data) => ({
+    type: actionTypes.DELETE_USER_SUCCESS,
+    data
+})
+
+export const deleteUserFail = (data) => ({
+    type: actionTypes.DELETE_USER_FAIL,
+    data
+})
+
+export const updateUserStart =  () => ({
+    type: actionTypes.UPDATE_USER_START
+})
+
+export const updateUserSuccess = (data) => ({
+    type: actionTypes.UPDATE_USER_SUCCESS,
+    data
+})
+
+export const updateUserFail = (data) => ({
+    type: actionTypes.UPDATE_USER_FAIL,
+    data
+})
+
 export const fetchUsers = () => async(dispatch) => {
     dispatch(fetchUsersStart())
     try {
@@ -146,6 +175,42 @@ export const uploadPic = (data, user) => async(dispatch) => {
         dispatch(uploadPicFail())
     }
 } 
+
+export const deleteUser = (user) => async(dispatch) => {
+    dispatch(deleteUserStart())
+    try {
+        const response = await api.delete('/users/' + user.user_id)
+        if(response.data !== ''){
+            await dispatch(setUserLogoff())
+            await dispatch(deleteUserSuccess(response.data))
+        } else {
+            throw new Error("Invalid id", user.user_id)
+        }
+        
+    } catch (err) {
+       const errorUser = {username: 'error'}
+        console.error(err.message)
+        message.error('Deleting id', user.user_id, " unsuccessful")
+        dispatch(deleteUserFail(errorUser))
+    }
+}
+
+export const updateUser = (user) => async(dispatch) => {
+    dispatch(updateUserStart())
+    try {
+        const updatedUser = {
+            ...user,
+            profile_picture_link: "https://aimsbconnectbucket.s3.amazonaws.com/default.png"
+        }
+        console.log(updatedUser)
+        await api.put('/users/' + user.user_id, updatedUser);
+        dispatch(updateUserSuccess())
+        message.success('User Update Success!');
+        
+    } catch (err) {
+        console.error(err.message)
+    }
+}
 
 const compare = (a, b) => {
     if(a.name < b.name) {

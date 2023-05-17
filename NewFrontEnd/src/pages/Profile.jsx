@@ -44,16 +44,31 @@ const Profile = () => {
         
     }
 
-    const onEditClick = () => {
-
+    const onEditClick = async() => {
+          try {
+            usr.username  = userName
+            usr.first_name = firstName
+            usr.last_name = lastName 
+            usr.password  = password
+            usr.birthday  = birthday
+            await dispatcher(actions.updateUser(usr))
+            navigate("/home")
+          } catch (err) {
+            console.error(err.message)
+          }
     }
 
     const onChange = () => {
 
     }
 
-    const onDeleteClick = () => {
-
+    const onDeleteClick = async() => {
+        try {
+            await dispatcher(actions.deleteUser(usr))
+            navigate("/")
+          } catch (err) {
+            console.error(err.message)
+        }
     }
     return (
         <div className="home">
